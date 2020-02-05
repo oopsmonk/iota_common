@@ -16,11 +16,59 @@
     "frameworks": "mbed",
     "platforms": "*",
     "build": {
+        "extraScript": "src_gen_script.py",
+        "flags": [
+            "-D FLEX_TRIT_ENCODING_3_TRITS_PER_BYTE",
+            "-D PCURL_SBOX_UNWIND_2",
+            "-D PCURL_STATE_SHORT"
+        ],
         "srcFilter": [
-            "utils/time.c",
-            "utils/logger_helper.c",
-            "utils/char_buffer.c",
-            "utils/memset_safe.c"
+            "+<common/errors.c>",
+            "+<common/trinary/.c>",
+            "+<common/trinary/add.c>",
+            "+<common/trinary/flex_trit.c>",
+            "+<common/trinary/ptrit_incr.c>",
+            "+<common/trinary/trit_byte.c>",
+            "+<common/trinary/trit_long.c>",
+            "+<common/trinary/trit_tryte.c>",
+            "+<common/trinary/tryte_ascii.c>",
+            "+<common/trinary/tryte_long.c>",
+            "+<common/crypto/curl-p/const.c>",
+            "+<common/crypto/curl-p/curl_p.c>",
+            "+<common/crypto/curl-p/digest.c>",
+            "+<common/crypto/kerl/bigint.c>",
+            "+<common/crypto/kerl/converter.c>",
+            "+<common/crypto/kerl/kerl.c>",
+            "+<common/crypto/kerl/hash.c>",
+            "+<common/crypto/kerl/iss/v1/iss_curl.c>",
+            "+<common/crypto/kerl/iss/v1/iss_kerl.c>",
+            "+<common/crypto/kerl/iss/normalize.c>",
+            "+<common/helpers/checksum.c>",
+            "+<common/helpers/digest.c>",
+            "+<common/helpers/sign.c>",
+            "+<utils/containers/hash/hash_array.c>",
+            "+<utils/containers/hash/hash27_queue.c>",
+            "+<utils/containers/hash/hash81_queue.c>",
+            "+<utils/containers/hash/hash243_queue.c>",
+            "+<utils/containers/hash/hash6561_queue.c>",
+            "+<utils/containers/hash/hash8019_queue.c>",
+            "+<utils/containers/hash/hash27_stack.c>",
+            "+<utils/containers/hash/hash81_stack.c>",
+            "+<utils/containers/hash/hash243_stack.c>",
+            "+<utils/containers/hash/hash6561_stack.c>",
+            "+<utils/containers/hash/hash8019_stack.c>",
+            "+<utils/char_buffer.c>",
+            "+<utils/memset_safe.c>"
         ]
-    }
+    },
+    "dependencies": [
+        {
+            "name": "Keccak",
+            "version": "https://github.com/oopsmonk/XKCP.git#pio_keccakp1600"
+        },
+        {
+            "name": "uthash",
+            "version": "https://github.com/troydhanson/uthash.git#1124f0a70b0714886402c3c0df03d037e3c4d57a"
+        }
+    ]
 }
