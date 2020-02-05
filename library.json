@@ -1,0 +1,26 @@
+{
+    "name": "iota_common",
+    "version": "0.0.1",
+    "keywords": "crypto, iota",
+    "description": "IOTA common library",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/oopsmonk/iota_common.git",
+        "branch": "pio_lib"
+    },
+    "authors": {
+        "name": "Sam Chen",
+        "email": "sam.chen@iota.org",
+        "maintainer": true
+    },
+    "frameworks": "mbed",
+    "platforms": "*",
+    "build": {
+        "srcFilter": [
+            "utils/time.c",
+            "utils/logger_helper.c",
+            "utils/char_buffer.c",
+            "utils/memset_safe.c"
+        ]
+    }
+}
