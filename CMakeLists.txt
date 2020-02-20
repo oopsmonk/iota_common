@@ -202,9 +202,9 @@ else()
   target_compile_definitions(common PRIVATE "-DPCURL_STATE_SHORT")
 endif()
 
-#if(${RPI_CROSS_COMPILATION})
-#  set_property(TARGET common PROPERTY C_STANDARD 99)
-#endif()
+if(${RPI_CROSS_COMPILATION})
+  set_property(TARGET common PROPERTY C_STANDARD 99)
+endif()
 
 ##=======================TESTING========================
 
@@ -212,9 +212,9 @@ if(${TRINARY_TEST})
   # ==============API test cases================
   function(add_trinary_test test_src test_name)
     add_executable(${test_name} "common/trinary/tests/${test_src}")
-    #if(${RPI_CROSS_COMPILATION})
-    #  set_property(TARGET ${test_name} PROPERTY C_STANDARD 99)
-    #endif()
+    if(${RPI_CROSS_COMPILATION})
+      set_property(TARGET ${test_name} PROPERTY C_STANDARD 99)
+    endif()
     target_include_directories(${test_name} PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_BINARY_DIR})
     add_dependencies(${test_name} common)
     target_link_libraries(${test_name} PUBLIC common unity)
