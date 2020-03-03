@@ -24,7 +24,6 @@
         ],
         "srcFilter": [
             "+<common/errors.c>",
-            "+<common/trinary/.c>",
             "+<common/trinary/add.c>",
             "+<common/trinary/flex_trit.c>",
             "+<common/trinary/ptrit_incr.c>",
