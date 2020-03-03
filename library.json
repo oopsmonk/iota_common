@@ -32,6 +32,7 @@
             "+<common/trinary/trit_tryte.c>",
             "+<common/trinary/tryte_ascii.c>",
             "+<common/trinary/tryte_long.c>",
+            "+<common/trinary/tryte.c>",
             "+<common/crypto/curl-p/const.c>",
             "+<common/crypto/curl-p/curl_p.c>",
             "+<common/crypto/curl-p/digest.c>",
@@ -39,9 +40,9 @@
             "+<common/crypto/kerl/converter.c>",
             "+<common/crypto/kerl/kerl.c>",
             "+<common/crypto/kerl/hash.c>",
-            "+<common/crypto/kerl/iss/v1/iss_curl.c>",
-            "+<common/crypto/kerl/iss/v1/iss_kerl.c>",
-            "+<common/crypto/kerl/iss/normalize.c>",
+            "+<common/crypto/iss/v1/iss_curl.c>",
+            "+<common/crypto/iss/v1/iss_kerl.c>",
+            "+<common/crypto/iss/normalize.c>",
             "+<common/helpers/checksum.c>",
             "+<common/helpers/digest.c>",
             "+<common/helpers/sign.c>",
@@ -56,6 +57,7 @@
             "+<utils/containers/hash/hash243_stack.c>",
             "+<utils/containers/hash/hash6561_stack.c>",
             "+<utils/containers/hash/hash8019_stack.c>",
+            "+<utils/input_validators.c>",
             "+<utils/char_buffer.c>",
             "+<utils/memset_safe.c>"
         ]
