@@ -13,7 +13,7 @@
         "email": "sam.chen@iota.org",
         "maintainer": true
     },
-    "frameworks": "mbed",
+    "frameworks": "*",
     "platforms": "*",
     "build": {
         "extraScript": "src_gen_script.py",
