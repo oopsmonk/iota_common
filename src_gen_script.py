@@ -1,9 +1,10 @@
+from __future__ import print_function # support python 2.x
 import fileinput
 import shutil
 from os.path import join, realpath
 import os
 
-Import("env")
+# Import("env") # PlatformIO env
 #
 # Dump build environment (for debug purpose)
 # print(env.Dump())
