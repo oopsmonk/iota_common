@@ -58,6 +58,7 @@
             "+<utils/containers/hash/hash6561_stack.c>",
             "+<utils/containers/hash/hash8019_stack.c>",
             "+<utils/input_validators.c>",
+            "+<utils/logger_helper.c>",
             "+<utils/char_buffer.c>",
             "+<utils/memset_safe.c>"
         ]
@@ -70,6 +71,10 @@
         {
             "name": "uthash",
             "version": "https://github.com/troydhanson/uthash.git#1124f0a70b0714886402c3c0df03d037e3c4d57a"
+        },
+        {
+            "name": "embear_logger",
+            "version": "https://github.com/embear/logger.git#v4.0.x"
         }
     ]
 }
