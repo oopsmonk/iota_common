@@ -1,0 +1,8 @@
+function(add_common_bench bench_src bench_name)
+	add_executable(${bench_name} "${bench_src}")
+	target_include_directories(${bench_name} PUBLIC ${PROJECT_SOURCE_DIR}/src ${IOTA_COMMON_EXTERNAL_HEADERS})
+	add_dependencies(${bench_name} iota_common)
+	target_link_libraries(${bench_name} PUBLIC iota_common)
+endfunction(add_common_bench)
+
+add_common_bench("bench_address.c" bench_address)

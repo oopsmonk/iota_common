@@ -1,0 +1,28 @@
+{
+    "name": "iota_common",
+    "version": "0.0.3",
+    "keywords": "crypto, iota",
+    "description": "IOTA common library",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/oopsmonk/iota_common.git",
+        "branch": "dev_lite"
+    },
+    "authors": {
+        "name": "Sam Chen",
+        "email": "sam.chen@iota.org",
+        "maintainer": true
+    },
+    "frameworks": "*",
+    "platforms": "*",
+    "dependencies": [
+        {
+            "name": "Keccak",
+            "version": "https://github.com/oopsmonk/XKCP.git#pio_keccakp1600"
+        },
+        {
+            "name": "uthash",
+            "version": "https://github.com/troydhanson/uthash.git#1124f0a70b0714886402c3c0df03d037e3c4d57a"
+        }
+    ]
+}
