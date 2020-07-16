@@ -49,7 +49,7 @@ size_t min_trits(int64_t value) {
     return 1;
   }
 
-  const bool is_negative = value < 0;
+  bool is_negative = value < 0;
   // Edge case where value == INT64_MIN. In this case,
   // llabs cannot return a value greater than INT64_MAX
   // so we "force" the (unsigned) value explicitly
@@ -167,4 +167,53 @@ int trytes_to_trits(tryte_t trytes[], size_t trytes_len, trit_t trits[]) {
     memcpy(trits + j, TRYTES_TRITS_LUT[INDEX_OF_TRYTE(trytes[i])], TERNARY_TRITS_PER_TRYTE);
   }
   return 0;
+}
+
+// int64 trits
+
+int64_t trits_to_int64(trit_t trits[], size_t num_trits) {
+  if (num_trits == 0) {
+    return 0;
+  }
+  int64_t accum = 0;
+  size_t end = num_trits;
+  while (end-- > 0) {
+    accum = accum * TERNARY_BASE + trits[end];
+  }
+  return accum;
+}
+
+void int64_to_trits(int64_t value, trit_t trits[]) {
+  trit_t trit;
+  size_t i;
+  uint64_t v_abs;
+
+  bool negative = value < 0;
+  // Edge case where value == INT64_MIN. In this case,
+  // llabs cannot return a value greater than INT64_MAX
+  // so we "force" the (unsigned) value explicitly
+  if (value == INT64_MIN) {
+    v_abs = INT64_MAX + 1ULL;
+  } else if (negative) {
+    v_abs = -value;
+  } else {
+    v_abs = value;
+  }
+  // } else {
+  //   v_abs = llabs(value);
+  // }
+
+  memset(trits, 0, TERNARY_BASE);
+  for (i = 0; i < min_trits(value); i++) {
+    if (v_abs == 0) {
+      break;
+    }
+    trit = (v_abs + 1) % (TERNARY_BASE)-1;
+    if (negative) {
+      trit = -trit;
+    }
+    trits[i] = trit;
+    v_abs++;
+    v_abs /= TERNARY_BASE;
+  }
 }

@@ -102,6 +102,23 @@ int trits_to_trytes(trit_t trits[], size_t trits_len, tryte_t trytes[]);
  */
 int trytes_to_trits(tryte_t trytes[], size_t tryte_len, trit_t trits[]);
 
+/**
+ * @brief Converts trits to int64
+ *
+ * @param[in] trits A trits array
+ * @param[in] num_trits The length of the trits array
+ * @return int64_t
+ */
+int64_t trits_to_int64(trit_t trits[], size_t num_trits);
+
+/**
+ * @brief Converts int64 to a trits array
+ *
+ * @param[in] value A 64-bit integer
+ * @param[out] trits A trits array
+ */
+void int64_to_trits(int64_t value, trit_t trits[]);
+
 #ifdef __cplusplus
 }
 #endif

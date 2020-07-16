@@ -54,3 +54,25 @@ void kerl_squeeze(Keccak_HashInstance* const kerl, trit_t trits[], size_t length
     trits = &trits[NUM_KERL_HASH_TRITS];
   }
 }
+
+#define HASH_TRYTE_VAL(hash, i)                                                    \
+  (hash[i * TERNARY_TRITS_PER_TRYTE] + hash[i * TERNARY_TRITS_PER_TRYTE + 1] * 3 + \
+   hash[i * TERNARY_TRITS_PER_TRYTE + 2] * 9)
+
+int kerl_signature(Keccak_HashInstance* const kerl, trit_t bundle_hash[], trit_t key[], size_t key_len, trit_t sig[]) {
+  trit_t* se = &sig[key_len];
+
+  if (sig != key) {
+    memcpy(sig, key, key_len * sizeof(trit_t));
+  }
+
+  for (size_t i = 0; sig < se; i++, sig = &sig[NUM_KERL_HASH_TRITS]) {
+    for (size_t j = 0; j < (size_t)(TERNARY_TRYTE_MAX - HASH_TRYTE_VAL(bundle_hash, i)); j++) {
+      kerl_absorb(kerl, sig, NUM_KERL_HASH_TRITS);
+      kerl_squeeze(kerl, sig, NUM_KERL_HASH_TRITS);
+      kerl_reset(kerl);
+    }
+  }
+
+  return 0;
+}

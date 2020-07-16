@@ -6,6 +6,7 @@ add_library(iota_common
 	"model/address.c"
 	"model/transaction.c"
 	"ternary/ternary.c"
+	"utils/memset_safe.c"
 )
 
 target_include_directories(iota_common PUBLIC 
@@ -15,6 +16,9 @@ target_include_directories(iota_common PUBLIC
 
 add_dependencies(iota_common ext_keccak)
 target_link_libraries(iota_common PUBLIC keccak)
+if(HAS_ASAN_ENABLED)
+  target_link_libraries(iota_common PUBLIC asan)
+endif()
 
 # install
 install(TARGETS iota_common DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")

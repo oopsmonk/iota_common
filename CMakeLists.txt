@@ -5,6 +5,8 @@ project(iota_common)
 enable_language(C)
 enable_testing()
 
+option(ENABLE_ASAN "Enable Address sanitizer" ON)
+
 # Kerl Optimization options
 option(KERL_REF_64 "Kerl reference 64bit" ON)
 option(KERL_REF_32 "Kerl reference 32bit" OFF)
@@ -43,6 +45,10 @@ include(cmake/keccak.cmake)
 
 # for unit test
 include(cmake/unity.cmake)
+
+if(ENABLE_ASAN)
+  include(cmake/asan.cmake)
+endif()
 
 
 set(IOTA_COMMON_EXTERNAL_HEADERS 

@@ -56,6 +56,18 @@ void kerl_absorb(Keccak_HashInstance* const kerl, trit_t trits[], size_t length)
  */
 void kerl_squeeze(Keccak_HashInstance* const kerl, trit_t trits[], size_t length);
 
+/**
+ * @brief Generates signature from given bundle hash and private key.
+ *
+ * @param[in] kerl A kerl instance
+ * @param[in] bundle_hash A normalized bundle hash
+ * @param[in] key A private key
+ * @param[in] key_len The length of private key
+ * @param[out] sig the output signature
+ * @return int 0 on success
+ */
+int kerl_signature(Keccak_HashInstance* const kerl, trit_t bundle_hash[], trit_t key[], size_t key_len, trit_t sig[]);
+
 #ifdef __cplusplus
 }
 #endif
