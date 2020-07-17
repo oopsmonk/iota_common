@@ -6,6 +6,9 @@ enable_language(C)
 enable_testing()
 
 option(ENABLE_ASAN "Enable Address sanitizer" ON)
+option(ENABLE_TESTS "Enable unit tests" ON)
+option(ENABLE_BENCH "Enable benchmarks" ON)
+option(ENABLE_ED25519 "Enable ed25519 scheme" ON)
 
 # Kerl Optimization options
 option(KERL_REF_64 "Kerl reference 64bit" ON)
@@ -46,10 +49,13 @@ include(cmake/keccak.cmake)
 # for unit test
 include(cmake/unity.cmake)
 
-if(ENABLE_ASAN)
+if(ENABLE_ASAN AND ENABLE_TESTS)
   include(cmake/asan.cmake)
 endif()
 
+if(ENABLE_ED25519)
+  include(cmake/base58.cmake)
+endif()
 
 set(IOTA_COMMON_EXTERNAL_HEADERS 
   "${PROJECT_BINARY_DIR}/include"
@@ -57,5 +63,9 @@ set(IOTA_COMMON_EXTERNAL_HEADERS
 )
 
 add_subdirectory(src)
-add_subdirectory(tests)
-add_subdirectory(benchmarks)
+if(ENABLE_TESTS)
+  add_subdirectory(tests)
+endif()
+if(ENABLE_BENCH)
+  add_subdirectory(benchmarks)
+endif()
