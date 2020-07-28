@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(iota_common)
+
+enable_language(C)
+enable_testing()
+
+option(ENABLE_ASAN "Enable Address sanitizer" OFF)
+option(ENABLE_TESTS "Enable unit tests" ON)
+option(ENABLE_BENCH "Enable benchmarks" OFF)
+
+include(ExternalProject)
+link_directories("${CMAKE_INSTALL_PREFIX}/lib")
+
+# for unit test
+include(cmake/unity.cmake)
+
+include(cmake/uthash.cmake)
+include(cmake/base58.cmake)
+include(cmake/libsodium.cmake)
+
+if(ENABLE_ASAN AND ENABLE_TESTS)
+  include(cmake/asan.cmake)
+endif()
+
+
+set(IOTA_COMMON_EXTERNAL_HEADERS 
+  "${PROJECT_BINARY_DIR}/include"
+)
+
+add_subdirectory(src)
+
+if(ENABLE_TESTS)
+  add_subdirectory(tests)
+endif()
+if(ENABLE_BENCH)
+  add_subdirectory(benchmarks)
+endif()

@@ -1,0 +1,13 @@
+function(add_common_test test_src test_name)
+  add_executable(${test_name} "${test_src}")
+  target_include_directories(${test_name} PUBLIC ${PROJECT_SOURCE_DIR}/src ${IOTA_COMMON_EXTERNAL_HEADERS})
+  add_dependencies(${test_name} iota_common ext_unity)
+  if(HAS_ASAN_ENABLED)
+    target_link_libraries(${test_name} PRIVATE asan)
+  endif()
+  target_link_libraries(${test_name} PUBLIC iota_common ${IOTA_COMMON_EXT_LIBS} unity)
+  add_test(${test_name} ${test_name})
+endfunction(add_common_test)
+
+add_common_test("test_address.c" test_address)
+add_common_test("test_balance.c" test_balance)
