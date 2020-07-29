@@ -28,7 +28,7 @@ extern "C" {
  *
  * @param[out] seed An output seed
  */
-void random_seed(uint8_t seed[]);
+void random_seed(byte_t seed[]);
 
 /**
  * @brief Gets a human readable version of the Seed (base58 encoded).
@@ -39,7 +39,7 @@ void random_seed(uint8_t seed[]);
  * @return true
  * @return false
  */
-bool seed_2_string(char str_buf[], size_t *buf_len, uint8_t seed[]);
+bool seed_2_string(char str_buf[], size_t *buf_len, byte_t seed[]);
 
 /**
  * @brief Gets seed bytes from a human readable seed string.
@@ -49,7 +49,7 @@ bool seed_2_string(char str_buf[], size_t *buf_len, uint8_t seed[]);
  * @return true
  * @return false
  */
-bool seed_from_string(uint8_t out_seed[], const char *str);
+bool seed_from_string(byte_t out_seed[], const char *str);
 
 /**
  * @brief Gets the address from corresponding seed and index
@@ -59,7 +59,7 @@ bool seed_from_string(uint8_t out_seed[], const char *str);
  * @param[in] index The index of address
  * @param[in] version The address signature version
  */
-void get_address(uint8_t addr_out[], uint8_t seed[], uint64_t index, address_version_t version);
+void get_address(byte_t addr_out[], byte_t seed[], uint64_t index, address_version_t version);
 
 /**
  * @brief Gets a human readable version of the address (base58 encoded).
@@ -69,7 +69,7 @@ void get_address(uint8_t addr_out[], uint8_t seed[], uint64_t index, address_ver
  * @return true
  * @return false
  */
-bool address_2_string(char str_buf[], uint8_t address[]);
+bool address_2_string(char str_buf[], byte_t address[]);
 
 /**
  * @brief signs data/message and returns the signature.
@@ -80,11 +80,11 @@ bool address_2_string(char str_buf[], uint8_t address[]);
  * @param[in] data The message or data
  * @param[in] data_len The length of data
  */
-void sign_signature(uint8_t signature[], uint8_t seed[], uint64_t index, uint8_t data[], uint64_t data_len);
+void sign_signature(byte_t signature[], byte_t seed[], uint64_t index, byte_t data[], uint64_t data_len);
 
-bool sign_verify_signature(uint8_t seed[], uint64_t index, uint8_t signature[], uint8_t data[], size_t data_len);
+bool sign_verify_signature(byte_t seed[], uint64_t index, byte_t signature[], byte_t data[], size_t data_len);
 
-void dump_hex(uint8_t data[], size_t len);
+void dump_hex(byte_t data[], size_t len);
 
 #ifdef __cplusplus
 }

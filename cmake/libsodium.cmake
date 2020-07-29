@@ -16,7 +16,7 @@ if (NOT __SODIUM_INCLUDED)
     DOWNLOAD_DIR ${PROJECT_BINARY_DIR}/download
     DOWNLOAD_NAME libsodium-1.0.18-stable.tar.gz
     URL https://download.libsodium.org/libsodium/releases/libsodium-1.0.18-stable.tar.gz
-    URL_HASH SHA256=2ef4304dd844e274d78dfcf0201e1ba1a312eaba135bdc8affc56a3d80b58593
+    # URL_HASH SHA256=2ef4304dd844e274d78dfcf0201e1ba1a312eaba135bdc8affc56a3d80b58593
     BUILD_IN_SOURCE TRUE
     CONFIGURE_COMMAND ${sodium_src_dir}/configure --prefix=${CMAKE_INSTALL_PREFIX}
     # BUILD_COMMAND make

@@ -7,7 +7,7 @@
 
 #include "models/address.h"
 
-void dump_hex(uint8_t data[], size_t len) {
+void dump_hex(byte_t data[], size_t len) {
   for (int i = 0; i < len; i++) {
     printf("0x%x, ", data[i]);
   }
@@ -40,19 +40,19 @@ void hex_decode_string(const char str[], uint8_t array[]) {
   }
 }
 
-void random_seed(uint8_t seed[]) { randombytes_buf((void *const)seed, IOTA_SEED_BYTES); }
+void random_seed(byte_t seed[]) { randombytes_buf((void *const)seed, IOTA_SEED_BYTES); }
 
-bool seed_2_string(char str_buf[], size_t *buf_len, uint8_t seed[]) {
+bool seed_2_string(char str_buf[], size_t *buf_len, byte_t seed[]) {
   return b58enc((char *)str_buf, buf_len, (const void *)seed, IOTA_SEED_BYTES);
 }
 
-bool seed_from_string(uint8_t out_seed[], const char *str) {
+bool seed_from_string(byte_t out_seed[], const char *str) {
   size_t out_len = IOTA_SEED_BYTES;
   return b58tobin((void *)out_seed, &out_len, str, strlen(str));
 }
 
 // subSeed generates the n'th sub seed of this Seed which is then used to generate the KeyPair.
-static void get_subseed(uint8_t subseed[], uint8_t seed[], uint64_t index) {
+static void get_subseed(byte_t subseed[], byte_t seed[], uint64_t index) {
   // convert index to 8-byte-array in little-endian
   uint8_t bytes_index[8];
   // TODO: hardware optimization
@@ -68,7 +68,7 @@ static void get_subseed(uint8_t subseed[], uint8_t seed[], uint64_t index) {
   // dump_hex(bytes_index, 8);
 
   // hash index-byte
-  uint8_t hash_index[32];
+  byte_t hash_index[32];
   crypto_generichash(hash_index, 32, bytes_index, 8, NULL, 0);
   // printf("hashIndex: ");
   // dump_hex(hash_index, 32);
@@ -83,11 +83,11 @@ static void get_subseed(uint8_t subseed[], uint8_t seed[], uint64_t index) {
   // dump_hex(subseed, IOTA_SEED_BYTES);
 }
 
-bool address_from_ed25519(uint8_t addr_out[], uint8_t seed[], uint64_t index) {
+bool address_from_ed25519(byte_t addr_out[], byte_t seed[], uint64_t index) {
   // public key of the seed
-  uint8_t pub_key[ED_PUBLIC_KEY_BYTES];
-  uint8_t priv_key[ED_PRIVATE_KEY_BYTES];
-  uint8_t subseed[IOTA_SEED_BYTES];
+  byte_t pub_key[ED_PUBLIC_KEY_BYTES];
+  byte_t priv_key[ED_PRIVATE_KEY_BYTES];
+  byte_t subseed[IOTA_SEED_BYTES];
   // get subseed from seed
   get_subseed(subseed, seed, index);
   // get ed25519 public and private key from subseed
@@ -98,7 +98,7 @@ bool address_from_ed25519(uint8_t addr_out[], uint8_t seed[], uint64_t index) {
   // dump_hex(priv, ED_PRIVATE_KEY_BYTES);
 
   // digest: blake2b the public key
-  uint8_t digest[ED_PRIVATE_KEY_BYTES];
+  byte_t digest[ED_PRIVATE_KEY_BYTES];
   crypto_generichash(digest, ED_PRIVATE_KEY_BYTES, pub_key, ED_PUBLIC_KEY_BYTES, NULL, 0);
   // printf("digest: ");
   // dump_hex(digest, ED_PRIVATE_KEY_BYTES);
@@ -108,7 +108,7 @@ bool address_from_ed25519(uint8_t addr_out[], uint8_t seed[], uint64_t index) {
   memcpy((void *)(addr_out + 1), digest, 32);
 }
 
-void get_address(uint8_t addr_out[], uint8_t seed[], uint64_t index, address_version_t version) {
+void get_address(byte_t addr_out[], byte_t seed[], uint64_t index, address_version_t version) {
   if (version == ADDRESS_VER_ED25519) {
     address_from_ed25519(addr_out, seed, index);
   } else {
@@ -117,7 +117,7 @@ void get_address(uint8_t addr_out[], uint8_t seed[], uint64_t index, address_ver
   }
 }
 
-bool address_2_string(char str_buf[], uint8_t address[]) {
+bool address_2_string(char str_buf[], byte_t address[]) {
   size_t buf_len = IOTA_ADDRESS_STR_LEN;
   return b58enc(str_buf, &buf_len, (const void *)address, IOTA_ADDRESS_BYTES);
   // bool ret = b58enc(str_buf, &buf_len, (const void *)address, IOTA_ADDRESS_BYTES);
@@ -126,11 +126,11 @@ bool address_2_string(char str_buf[], uint8_t address[]) {
 }
 
 // signs the message with privateKey and returns a signature.
-void sign_signature(uint8_t signature[], uint8_t seed[], uint64_t index, uint8_t data[], uint64_t data_len) {
+void sign_signature(byte_t signature[], byte_t seed[], uint64_t index, byte_t data[], uint64_t data_len) {
   //
-  uint8_t pub_key[ED_PUBLIC_KEY_BYTES];
-  uint8_t priv_key[ED_PRIVATE_KEY_BYTES];
-  uint8_t subseed[IOTA_SEED_BYTES];
+  byte_t pub_key[ED_PUBLIC_KEY_BYTES];
+  byte_t priv_key[ED_PRIVATE_KEY_BYTES];
+  byte_t subseed[IOTA_SEED_BYTES];
   unsigned long long sign_len = 0;
   // get subseed from seed
   get_subseed(subseed, seed, index);
@@ -142,11 +142,11 @@ void sign_signature(uint8_t signature[], uint8_t seed[], uint64_t index, uint8_t
   // printf("sig len %lld\n", sign_len);
 }
 
-bool sign_verify_signature(uint8_t seed[], uint64_t index, uint8_t signature[], uint8_t data[], size_t data_len) {
-  uint8_t pub_key[ED_PUBLIC_KEY_BYTES];
-  uint8_t priv_key[ED_PRIVATE_KEY_BYTES];
-  uint8_t subseed[IOTA_SEED_BYTES];
-  uint8_t exp_data[200];
+bool sign_verify_signature(byte_t seed[], uint64_t index, byte_t signature[], byte_t data[], size_t data_len) {
+  byte_t pub_key[ED_PUBLIC_KEY_BYTES];
+  byte_t priv_key[ED_PRIVATE_KEY_BYTES];
+  byte_t subseed[IOTA_SEED_BYTES];
+  byte_t exp_data[200];
   unsigned long long exp_data_len = 0;
   // get subseed from seed
   get_subseed(subseed, seed, index);
