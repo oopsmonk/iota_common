@@ -42,7 +42,7 @@ int kerl_reset(Keccak_HashInstance* const kerl);
  * last trit is zeroed-out, then converted to 384-bits and absorbed by keccak.
  *
  * @param[in] kerl a kerl instance
- * @param[in, out] trit array of trits to be absorbed
+ * @param[out] trit array of trits to be absorbed
  * @param[in] length the size of trit array
  */
 void kerl_absorb(Keccak_HashInstance* const kerl, trit_t trits[], size_t length);
@@ -52,7 +52,7 @@ void kerl_absorb(Keccak_HashInstance* const kerl, trit_t trits[], size_t length)
  * Squeeze is done by receiving a 384-bit digest() from keccak.
  *
  * @param[in] kerl a kerl instance
- * @param[in, out] trits array of trits to be squeezed
+ * @param[out] trits array of trits to be squeezed
  */
 void kerl_squeeze(Keccak_HashInstance* const kerl, trit_t trits[], size_t length);
 

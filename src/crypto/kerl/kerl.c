@@ -23,7 +23,7 @@ int kerl_reset(Keccak_HashInstance* const kerl) { return kerl_init(kerl); }
 // }
 
 void kerl_absorb(Keccak_HashInstance* const kerl, trit_t trits[], size_t length) {
-  uint8_t bytes[NUM_KERL_HASH_BYTES];
+  byte_t bytes[NUM_KERL_HASH_BYTES];
   trit_t const* const end = &trits[length - 1];
 
   for (; trits < end;) {
@@ -35,14 +35,14 @@ void kerl_absorb(Keccak_HashInstance* const kerl, trit_t trits[], size_t length)
 
 void kerl_squeeze(Keccak_HashInstance* const kerl, trit_t trits[], size_t length) {
   size_t i;
-  uint8_t bytes[NUM_KERL_HASH_BYTES], tmp[NUM_KERL_HASH_BYTES];
+  byte_t bytes[NUM_KERL_HASH_BYTES], tmp[NUM_KERL_HASH_BYTES];
   uint32_t* ptr = (uint32_t*)bytes;
   trit_t const* const end = &trits[length - 1];
 
   for (; trits < end;) {
     Keccak_HashSqueeze(kerl, bytes, KECCAK_384_HASHBITLEN);
 
-    memcpy(tmp, bytes, NUM_KERL_HASH_BYTES * sizeof(uint8_t));
+    memcpy(tmp, bytes, NUM_KERL_HASH_BYTES * sizeof(byte_t));
     kerl_bytes_to_trits(tmp, trits);
 
     for (i = 0; i < BIGINT_LENGTH; i++) {

@@ -23,16 +23,16 @@ extern "C" {
  * @param[in] trits a 243-trit array
  * @param[out] bytes a 48-byte int array
  */
-void kerl_trits_to_bytes(trit_t trits[], uint8_t bytes[]);
+void kerl_trits_to_bytes(trit_t trits[], byte_t bytes[]);
 
 /**
  * @brief Converts a 48-byte integer into a 243-trit number.
  *  The input must consist of exactly one 48-byte integer and is converted into one 243-trit integer.
  *
- * @param[in, out] bytes a 48-byte intger
- * @param[in, out] trits a 243-trit integer
+ * @param[in] bytes a 48-byte intger, this parameter will be changed.
+ * @param[out] trits a 243-trit integer
  */
-void kerl_bytes_to_trits(uint8_t bytes[], trit_t trits[]);
+void kerl_bytes_to_trits(byte_t bytes[], trit_t trits[]);
 
 #ifdef __cplusplus
 }

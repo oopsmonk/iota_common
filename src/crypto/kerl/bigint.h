@@ -12,7 +12,7 @@ extern "C" {
 /**
  * @brief NOT operator
  *
- * @param[in, out] bigint A bigint array
+ * @param[out] bigint A bigint array
  * @param[in] len the length of bigint
  */
 void bigint_not(uint32_t bigint[], size_t len);

@@ -107,7 +107,7 @@ int sign_address_gen_trits(trit_t seed[], uint64_t index, uint8_t security, trit
   return 0;
 }
 
-void normalize_hash(trit_t hash[], byte_t normalized_hash[]) {
+void normalize_hash(trit_t hash[], trit_t normalized_hash[]) {
   for (int i = 0; i < SECURITY_LEVEL_MAX; i++) {
     int sum = 0;
     for (int j = i * KERL_HASH_FRAGMENTS; j < (i + 1) * KERL_HASH_FRAGMENTS; j++) {
@@ -138,7 +138,7 @@ void normalize_hash(trit_t hash[], byte_t normalized_hash[]) {
 }
 
 static void normalize_hash_to_trits(trit_t hash[], trit_t normalized_hash[]) {
-  byte_t normalized_bundle_bytes[KERL_HASH_TRYTES_CHUNK];
+  trit_t normalized_bundle_bytes[KERL_HASH_TRYTES_CHUNK];
 
   normalize_hash(hash, normalized_bundle_bytes);
   for (int c = 0; c < KERL_HASH_TRYTES_CHUNK; ++c) {

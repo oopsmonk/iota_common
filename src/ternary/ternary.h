@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-typedef int8_t byte_t;
+typedef uint8_t byte_t;
 typedef int8_t trit_t;
 typedef int8_t tryte_t;
 
@@ -76,7 +76,7 @@ int64_t trits_to_int(trit_t const trits[], size_t num_trits);
 /**
  * @brief Adds an intger to trits
  *
- * @param[in, out] trits A trit array
+ * @param[out] trits A trit array
  * @param[in] trit_len the size of trit array
  * @param[in] value The value adds to the given trit array.
  */

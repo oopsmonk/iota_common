@@ -23,7 +23,7 @@ int kerl_subseed(Keccak_HashInstance* kerl, trit_t const seed[], uint64_t key_id
  *
  * @param[in] kerl A keccake instance
  * @param[in] subseed The subseed from kerl_subseed()
- * @param[in, out] key A buffer holds the private key
+ * @param[out] key A buffer holds the private key
  * @param[in] key_length The length of private key
  * @return int 0 on success
  */

@@ -33,10 +33,10 @@ static void space_reverse(uint8_t bytes[]) {
   }
 }
 
-void kerl_trits_to_bytes(trit_t trits[], uint8_t bytes[]) {
+void kerl_trits_to_bytes(trit_t trits[], byte_t bytes[]) {
   size_t i = 0, j = 0;
   size_t sz = 1, size = 1;
-  uint8_t all_minus_1 = 1;
+  bool all_minus_1 = true;
   uint32_t carry;
   uint32_t *base = (uint32_t *)bytes;
   uint64_t v;
@@ -45,7 +45,7 @@ void kerl_trits_to_bytes(trit_t trits[], uint8_t bytes[]) {
 
   for (i = 0; i < NUM_KERL_HASH_TRITS - 1; i++) {
     if (trits[i] != -1) {
-      all_minus_1 = 0;
+      all_minus_1 = false;
       break;
     }
   }
@@ -103,9 +103,9 @@ void kerl_trits_to_bytes(trit_t trits[], uint8_t bytes[]) {
   space_reverse(bytes);
 }
 
-void kerl_bytes_to_trits(uint8_t bytes[], trit_t trits[]) {
+void kerl_bytes_to_trits(byte_t bytes[], trit_t trits[]) {
   size_t i = 0, j = 0;
-  uint8_t flip_trits = 0;
+  bool flip_trits = false;
   uint64_t lhs, rem;
   uint64_t rhs = TERNARY_BASE;
   uint32_t *base = (uint32_t *)bytes;
@@ -133,7 +133,7 @@ void kerl_bytes_to_trits(uint8_t bytes[], trit_t trits[]) {
     bigint_not(base, BIGINT_LENGTH);
     if (bigint_cmp(base, HALF_3, BIGINT_LENGTH) > 0) {
       bigint_sub(base, HALF_3, BIGINT_LENGTH);
-      flip_trits = 1;
+      flip_trits = true;
     } else {
       bigint_add_small(base, 1);
       uint32_t tmp[BIGINT_LENGTH] = {0};
