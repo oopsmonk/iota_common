@@ -3,6 +3,7 @@
 #define __COMMON_MODEL_TRANSACTION_H__
 
 #include "ternary/ternary.h"
+#include "utarray.h"
 
 #define NUM_TRYTES_SERIALIZED_TRANSACTION 2673
 #define NUM_TRYTES_SIG_MSG 2187
@@ -96,7 +97,7 @@ extern "C" {
  * @param[in] tx_field transaction field
  * @return tryte_t* a pointer to the filed
  */
-tryte_t const* transaction_get_trytes(iota_transaction_t const* const tx, transaction_field tx_field);
+tryte_t const *transaction_get_trytes(iota_transaction_t const *const tx, transaction_field tx_field);
 
 /**
  * @brief Sets a transaction trytes field
@@ -106,21 +107,75 @@ tryte_t const* transaction_get_trytes(iota_transaction_t const* const tx, transa
  * @param[in] trytes tryte buffer
  * @return int 0 on success
  */
-int transaction_set_trytes(iota_transaction_t* const tx, transaction_field tx_field, tryte_t trytes[]);
+int transaction_set_trytes(iota_transaction_t *const tx, transaction_field tx_field, tryte_t trytes[]);
 
 /**
  * @brief Sets all transaction trytes fields to '9's and number fields to zero.
  *
  * @param[in] tx a transaction object
  */
-void transaction_reset(iota_transaction_t* const tx);
+void transaction_reset(iota_transaction_t *const tx);
 
 /**
  * @brief print out transaction object
  *
  * @param[in] tx a transaction object
  */
-void transaction_printf(iota_transaction_t* const tx);
+void transaction_printf(iota_transaction_t *const tx);
+
+typedef UT_array transaction_array_t;
+static UT_icd const ut_transactions_icd = {sizeof(iota_transaction_t), NULL, NULL, NULL};
+
+/**
+ * @brief allocats a transaction list
+ *
+ * @return transaction_array_t*
+ */
+static inline transaction_array_t *transaction_array_new() {
+  transaction_array_t *txs = NULL;
+  utarray_new(txs, &ut_transactions_icd);
+  return txs;
+}
+
+/**
+ * @brief Appends a transaction to the transaction list
+ *
+ * @param[in] txs A transaction list object
+ * @param[in] tx A transaction object
+ */
+static inline void transaction_array_push(transaction_array_t *txs, iota_transaction_t const *const tx) {
+  utarray_push_back(txs, tx);
+}
+
+/**
+ * @brief Gets the size of list
+ *
+ * @param[in] txs A transaction list object
+ * @return size_t
+ */
+static inline size_t transaction_array_len(transaction_array_t *txs) { return utarray_len(txs); }
+
+/**
+ * @brief Free a transaction list
+ *
+ * @param[in] txs A transaction list object
+ */
+static inline void transaction_array_free(transaction_array_t *txs) { utarray_free(txs); }
+
+/**
+ * @brief Gets a transaction by index, return NULL if index > transaction_array_len
+ *
+ * @param[in] txs A transaction list object
+ * @param[in] index transaction index
+ * @return iota_transaction_t*
+ */
+static inline iota_transaction_t *transaction_array_at(transaction_array_t *txs, size_t index) {
+  // return NULL if not found.
+  return (iota_transaction_t *)utarray_eltptr(txs, index);
+}
+
+#define TX_OBJS_FOREACH(txs, tx) \
+  for (tx = (iota_transaction_t *)utarray_front(txs); tx != NULL; tx = (iota_transaction_t *)utarray_next(txs, tx))
 
 #ifdef __cplusplus
 }

@@ -217,3 +217,53 @@ void int64_to_trits(int64_t value, trit_t trits[]) {
     v_abs /= TERNARY_BASE;
   }
 }
+
+// ========== ASCII =============
+/*
+How the conversion works:
+  2 Trytes === 1 Byte
+  There are a total of 27 different tryte values: 9ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+  1. We get the decimal value of an individual ASCII character
+  2. From the decimal value, we then derive the two tryte values by basically calculating the tryte equivalent
+    (e.g. 100 === 19 + 3 * 27)
+    a. The first tryte value is the decimal value modulo 27 (27 trytes)
+    b. The second value is the remainder (decimal value - first value), divided by 27
+  3. The two values returned from Step 2. are then input as indices into the available values list
+    ('9ABCDEFGHIJKLMNOPQRSTUVWXYZ') to get the correct tryte value
+
+EXAMPLES
+  Lets say we want to convert the ASCII character "Z".
+    1. 'Z' has a decimal value of 90.
+    2. 90 can be represented as 9 + 3 * 27. To make it simpler:
+      a. First value: 90 modulo 27 is 9. This is now our first value
+      b. Second value: (90 - 9) / 27 is 3. This is our second value.
+    3. Our two values are now 9 and 3. To get the tryte value now
+      we simply insert it as indices into '9ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      a. The first tryte value is '9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[9] === "I"
+      b. The second tryte value is '9ABCDEFGHIJKLMNOPQRSTUVWXYZ'[3] === "C"
+    Our tryte pair is "IC"
+
+RESULT:
+  The ASCII char "Z" is represented as "IC" in trytes
+*/
+
+void ascii_to_trytes(char const str[], tryte_t trytes[]) {
+  tryte_t first_tryte = 0, second_tryte = 0;
+  uint8_t ascii_value = 0;
+  size_t tryte_index = 0;
+
+  for (size_t i = 0; i < strlen(str); i++) {
+    ascii_value = str[i];
+    first_tryte = ascii_value % 27;
+    second_tryte = (ascii_value - first_tryte) / 27;
+    trytes[tryte_index++] = TERNARY_TRYTE_ALPHABET[first_tryte];
+    trytes[tryte_index++] = TERNARY_TRYTE_ALPHABET[second_tryte];
+  }
+}
+
+void trytes_to_ascii(tryte_t const trytes[], size_t trytes_len, char out_str[]) {
+  for (size_t i = 0; i < trytes_len; i += 2) {
+    out_str[i / 2] = INDEX_OF_TRYTE(trytes[i]) + INDEX_OF_TRYTE(trytes[i + 1]) * 27;
+  }
+}

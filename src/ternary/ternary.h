@@ -119,6 +119,23 @@ int64_t trits_to_int64(trit_t trits[], size_t num_trits);
  */
 void int64_to_trits(int64_t value, trit_t trits[]);
 
+/**
+ * @brief Converts ASCII string to trytes encoding
+ *
+ * @param[in] str An ascii string
+ * @param[out] trytes A bufffer holds output trytes
+ */
+void ascii_to_trytes(char const str[], tryte_t trytes[]);
+
+/**
+ * @brief Converts trytes to an ASCII string
+ *
+ * @param[in] trytes A tryte array
+ * @param[in] trytes_len The length of the tryte array
+ * @param[out] out_str A buffer holds output ascii string
+ */
+void trytes_to_ascii(tryte_t const trytes[], size_t trytes_len, char out_str[]);
+
 #ifdef __cplusplus
 }
 #endif

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <unity/unity.h>
 
 #include "ternary/ternary.h"
@@ -116,6 +117,30 @@ void test_from_int64(void) {
   TEST_ASSERT_EQUAL_MEMORY(exp, trits, sizeof(trits));
 }
 
+static char const exp_ascii[] =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac leo a "
+    "massa porta tempus scelerisque in leo. Duis ligula dolor, condimentum vel "
+    "ipsum et, accumsan viverra lacus.";
+
+static tryte_t exp_trytes[] =
+    "VBCDFDTCADEAXCDDGDIDADEASCCD9DCDFDEAGDXCHDEAPCADTCHDQAEARCCDBDGDTCRCHDTCHD"
+    "IDFDEAPCSCXCDDXCGDRCXCBDVCEATC9DXCHDSAEAWBPCIDFDXCGDEAPCRCEA9DTCCDEAPCEAAD"
+    "PCGDGDPCEADDCDFDHDPCEAHDTCADDDIDGDEAGDRCTC9DTCFDXCGDEDIDTCEAXCBDEA9DTCCDSA"
+    "EANBIDXCGDEA9DXCVCID9DPCEASCCD9DCDFDQAEARCCDBDSCXCADTCBDHDIDADEAJDTC9DEAXC"
+    "DDGDIDADEATCHDQAEAPCRCRCIDADGDPCBDEAJDXCJDTCFDFDPCEA9DPCRCIDGDSA";
+
+void test_ascii_trytes() {
+  size_t tryte_len = strlen(exp_ascii) * 2;
+  tryte_t tryte_buffer[tryte_len];
+  ascii_to_trytes(exp_ascii, tryte_buffer);
+  TEST_ASSERT_EQUAL_MEMORY(exp_trytes, tryte_buffer, tryte_len);
+
+  size_t len = strlen((char *)exp_trytes) / 2;
+  char str_buffer[len];
+  trytes_to_ascii(exp_trytes, strlen((char *)exp_trytes), str_buffer);
+  TEST_ASSERT_EQUAL_MEMORY(exp_ascii, str_buffer, len);
+}
+
 int main() {
   UNITY_BEGIN();
 
@@ -131,6 +156,8 @@ int main() {
   RUN_TEST(test_from_int64);
   RUN_TEST(test_int64_max_to_trits);
   RUN_TEST(test_int64_min_to_trits);
+
+  RUN_TEST(test_ascii_trytes);
 
   return UNITY_END();
 }

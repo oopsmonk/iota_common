@@ -18,6 +18,7 @@ add_common_test("test_ternary.c" test_ternary)
 add_common_test("test_address.c" test_address)
 add_common_test("test_kerl.c" test_kerl)
 add_common_test("test_signing.c" test_signing)
+add_common_test("test_transaction.c" test_transaction)
 
 if(ENABLE_ED25519)
   add_common_test("test_ed25519.c" test_ed25519)

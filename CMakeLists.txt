@@ -45,6 +45,7 @@ include(ExternalProject)
 link_directories("${CMAKE_INSTALL_PREFIX}/lib")
 
 include(cmake/keccak.cmake)
+include(cmake/uthash.cmake)
 
 # for unit test
 include(cmake/unity.cmake)
