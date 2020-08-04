@@ -82,8 +82,25 @@ bool address_2_string(char str_buf[], byte_t address[]);
  */
 void sign_signature(byte_t signature[], byte_t seed[], uint64_t index, byte_t data[], uint64_t data_len);
 
+/**
+ * @brief Validates signature
+ *
+ * @param[in] seed The seed
+ * @param[in] index An address index
+ * @param[in] signature The signature
+ * @param[in] data The expected data
+ * @param[in] data_len The length of data
+ * @return true
+ * @return false
+ */
 bool sign_verify_signature(byte_t seed[], uint64_t index, byte_t signature[], byte_t data[], size_t data_len);
 
+/**
+ * @brief print out hexmal value in a byte array.
+ *
+ * @param[in] data A byte array.
+ * @param[in] len The size of the byte array.
+ */
 void dump_hex(byte_t data[], size_t len);
 
 #ifdef __cplusplus

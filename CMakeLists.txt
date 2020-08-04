@@ -5,7 +5,7 @@ project(iota_common)
 enable_language(C)
 enable_testing()
 
-option(ENABLE_ASAN "Enable Address sanitizer" OFF)
+option(ENABLE_ASAN "Enable Address sanitizer" ON)
 option(ENABLE_TESTS "Enable unit tests" ON)
 option(ENABLE_BENCH "Enable benchmarks" OFF)
 

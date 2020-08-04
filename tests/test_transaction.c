@@ -12,7 +12,7 @@ void test_inputs() {
   random_seed(seed);
 
   // transaction inputs
-  inputs_t *in = transaction_inputs_new();
+  tx_inputs_t *in = transaction_inputs_new();
   get_address(addr_tmp, seed, 0, ADDRESS_VER_ED25519);
   transaction_inputs_push(in, addr_tmp);
 
@@ -33,11 +33,11 @@ void test_inputs() {
 void test_outputs() {
   byte_t seed[IOTA_SEED_BYTES];
   // byte_t addr_tmp[IOTA_ADDRESS_BYTES];
-  output_t tmp_out;
+  tx_output_t tmp_out;
   // new seed
   random_seed(seed);
 
-  outputs_t *tx_outs = transaction_outputs_new();
+  tx_outputs_t *tx_outs = transaction_outputs_new();
   // init and add output object to output list
   get_address(tmp_out.address, seed, 0, ADDRESS_VER_ED25519);
   balance_init(&(tmp_out.balance), NULL, 100);
@@ -48,7 +48,7 @@ void test_outputs() {
   transaction_outputs_push(tx_outs, &tmp_out);
 
   TEST_ASSERT_EQUAL_UINT32(2, transaction_outputs_len(tx_outs));
-  output_t *o = transaction_outputs_at(tx_outs, 5);
+  tx_output_t *o = transaction_outputs_at(tx_outs, 5);
   TEST_ASSERT_NULL(o);
   o = transaction_outputs_at(tx_outs, 1);
   TEST_ASSERT_EQUAL_INT64(tmp_out.balance.value, o->balance.value);
