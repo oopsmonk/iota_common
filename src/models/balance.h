@@ -9,12 +9,13 @@
 // Color represents a marker that is associated to a token balance and that gives it a certain "meaning". The zero value
 // represents "vanilla" IOTA tokens but it is also possible to define tokens that represent i.e. real world assets.
 
-#define BALANCE_COLOR_LEN 32
+#define BALANCE_COLOR_BYTES 32
+#define BALANCE_COLOR_STR_LEN 48
 
 // Balance represents a balance in the IOTA ledger. It consists out of a numeric value and a color.
 typedef struct {
   int64_t value;
-  byte_t color[BALANCE_COLOR_LEN];
+  byte_t color[BALANCE_COLOR_BYTES];
 } balance_t;
 
 #ifdef __cplusplus
@@ -53,6 +54,16 @@ void balance_2_bytes(byte_t balance_bytes[], balance_t* balance);
  * @param[in] color The color bytes to be set
  */
 void balance_set_color(balance_t* balance, byte_t color[]);
+
+/**
+ * @brief Gets a human readable color string (base58 encoded).
+ *
+ * @param[out] color_str A buffer holds color string
+ * @param[in] color A color object in bytes
+ * @return true
+ * @return false
+ */
+bool balance_color_2_string(char color_str[], byte_t color[]);
 
 /**
  * @brief print out a balance object

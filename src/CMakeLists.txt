@@ -2,6 +2,7 @@
 add_library(iota_common
 	"models/address.c"
 	"models/balance.c"
+	"models/transaction.c"
 )
 
 target_include_directories(iota_common PUBLIC 

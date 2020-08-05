@@ -13,64 +13,10 @@ extern "C" {
 #endif
 
 #define TRANSACTION_ID_BYTES 32
+#define TRANSACTION_ID_STR_LEN 48
+// OutputID is the data type that represents the identifier for a Output.
 #define OUTPUT_ID_BYTES (IOTA_ADDRESS_BYTES + TRANSACTION_ID_BYTES)
-
-// The input is a list of addresses in a transaction.
-typedef UT_array tx_inputs_t;
-static UT_icd const ut_inputs_icd = {sizeof(byte_t) * IOTA_ADDRESS_BYTES, NULL, NULL, NULL};
-
-/**
- * @brief Allocates a transaction input list object.
- *
- * @return tx_inputs_t* a pointer to tx_inputs_t object
- */
-static inline tx_inputs_t *transaction_inputs_new() {
-  tx_inputs_t *tx_inputs = NULL;
-  utarray_new(tx_inputs, &ut_inputs_icd);
-  return tx_inputs;
-}
-
-/**
- * @brief Appends an input object to the list.
- *
- * @param[in] tx_in The list object
- * @param[in] address An address to be appended to the list.
- */
-static inline void transaction_inputs_push(tx_inputs_t *tx_in, byte_t address[]) { utarray_push_back(tx_in, address); }
-
-/**
- * @brief Gets list size
- *
- * @param[in] tx_in A list object
- * @return size_t
- */
-static inline size_t transaction_inputs_len(tx_inputs_t *tx_in) { return utarray_len(tx_in); }
-
-/**
- * @brief Frees a transaction input list.
- *
- * @param[in] tx_in A transaction input object.
- */
-static inline void transaction_inputs_free(tx_inputs_t *tx_in) { utarray_free(tx_in); }
-
-/**
- * @brief Gets address by index from a transaction list.
- *
- * @param[in] tx_in The transaction input object
- * @param[in] index The index of address
- * @return byte_t* A pointer to the address, NULL if not found.
- */
-static inline byte_t *transaction_inputs_at(tx_inputs_t *tx_in, size_t index) {
-  // return NULL if not found.
-  return (byte_t *)utarray_eltptr(tx_in, index);
-}
-
-/**
- * @brief loops transaction input list
- *
- */
-#define TX_INPUTS_FOREACH(tx_in, addr) \
-  for (addr = (byte_t *)utarray_front(tx_in); addr != NULL; addr = (byte_t *)utarray_next(tx_in, addr))
+#define OUTPUT_ID_STR_LEN 96
 
 /**
  * @brief A transaction output object
@@ -81,19 +27,120 @@ typedef struct {
   balance_t balance;
 } tx_output_t;
 
+// Inputs represents a list of referenced Outputs that are used as Inputs in a transaction
+typedef UT_array tx_inputs_t;
+// Outputs represents a list of Outputs that are part of a transaction.
 typedef UT_array tx_outputs_t;
-static UT_icd const ut_outputs_icd = {sizeof(tx_output_t), NULL, NULL, NULL};
+
+/**
+ * @brief Gets a random transaction id.
+ *
+ * @param[out] id A transaction id
+ */
+void tx_id_random(byte_t id[]);
+
+/**
+ * @brief Gets a human readable version of the id (base58 encoded).
+ *
+ * @param[out] str_buf The id string
+ * @param[in, out] buf_len The length of string
+ * @param[in] id The id in bytes
+ * @return true
+ * @return false
+ */
+bool tx_id_2_string(char str_buf[], size_t *buf_len, byte_t id[]);
+
+/**
+ * @brief Gets a random output id from a given address
+ *
+ * @param[out] output_id A buffer holds output id
+ * @param[in] addr An address in bytes
+ */
+void tx_output_id_random(byte_t output_id[], byte_t addr[]);
+
+/**
+ * @brief Gets an output id from given address and id.
+ *
+ * @param[out] output_id A buffer holds output id
+ * @param[in] addr An address in bytes
+ * @param[in] id An id in bytes
+ */
+void tx_output_id(byte_t output_id[], byte_t addr[], byte_t id[]);
+
+/**
+ * @brief Gets a human readable output id (base58 encoded).
+ *
+ * @param[out] str_buf A buffer holds output id string
+ * @param[in, out] buf_len The length of buffer
+ * @param[in] output_id An output id
+ * @return true
+ * @return false
+ */
+bool tx_output_id_2_string(char str_buf[], size_t *buf_len, byte_t output_id[]);
+
+/**
+ * @brief Allocates a transaction input list object.
+ *
+ * @return tx_inputs_t* a pointer to tx_inputs_t object
+ */
+tx_inputs_t *tx_inputs_new();
+
+/**
+ * @brief Appends an output id to the list.
+ *
+ * @param[in] tx_in The list object
+ * @param[in] output_id An output id to be appended to the list.
+ */
+static void tx_inputs_push(tx_inputs_t *tx_in, byte_t output_id[]) { utarray_push_back(tx_in, output_id); }
+
+/**
+ * @brief Gets input list size
+ *
+ * @param[in] tx_in An input list object
+ * @return size_t
+ */
+static size_t tx_inputs_len(tx_inputs_t *tx_in) { return utarray_len(tx_in); }
+
+/**
+ * @brief Frees an input list.
+ *
+ * @param[in] tx_in An input list object.
+ */
+static void tx_inputs_free(tx_inputs_t *tx_in) { utarray_free(tx_in); }
+
+/**
+ * @brief Prints an input list.
+ *
+ * @param[in] tx_in An input list object.
+ */
+void tx_inputs_print(tx_inputs_t *tx_in);
+
+/**
+ * @brief Gets output id by index from an input list.
+ *
+ * @param[in] tx_in The input list object
+ * @param[in] index The index of output id
+ * @return byte_t* A pointer to the output id, NULL if not found.
+ */
+static byte_t *tx_inputs_at(tx_inputs_t *tx_in, size_t index) {
+  // return NULL if not found.
+  return (byte_t *)utarray_eltptr(tx_in, index);
+}
+
+/**
+ * @brief loops transaction input list
+ *
+ */
+#define TX_INPUTS_FOREACH(tx_in, output_id)                           \
+  for (output_id = (byte_t *)utarray_front(tx_in); output_id != NULL; \
+       output_id = (byte_t *)utarray_next(tx_in, output_id))
 
 /**
  * @brief Allocates transaction outputs object
  *
  * @return tx_outputs_t* A pointer to the object.
  */
-static inline tx_outputs_t *transaction_outputs_new() {
-  tx_inputs_t *tx_outputs = NULL;
-  utarray_new(tx_outputs, &ut_outputs_icd);
-  return tx_outputs;
-}
+tx_outputs_t *tx_outputs_new();
 
 /**
  * @brief Appends an output object to list.
@@ -101,7 +148,7 @@ static inline tx_outputs_t *transaction_outputs_new() {
  * @param[in] tx_out The output list object.
  * @param[in] output An output object.
  */
-static inline void transaction_outputs_push(tx_outputs_t *tx_out, tx_output_t const *const output) {
+static void tx_outputs_push(tx_outputs_t *tx_out, tx_output_t const *const output) {
   utarray_push_back(tx_out, output);
 }
 
@@ -111,14 +158,14 @@ static inline void transaction_outputs_push(tx_outputs_t *tx_out, tx_output_t co
  * @param[in] tx_out A transaction output list object.
  * @return size_t
  */
-static inline size_t transaction_outputs_len(tx_outputs_t *tx_out) { return utarray_len(tx_out); }
+static size_t tx_outputs_len(tx_outputs_t *tx_out) { return utarray_len(tx_out); }
 
 /**
  * @brief Frees a transaction output list
  *
  * @param[in] tx_out
  */
-static inline void transaction_outputs_free(tx_outputs_t *tx_out) { utarray_free(tx_out); }
+static void tx_outputs_free(tx_outputs_t *tx_out) { utarray_free(tx_out); }
 
 /**
  * @brief Gets an output object from list by given index.
@@ -127,10 +174,17 @@ static inline void transaction_outputs_free(tx_outputs_t *tx_out) { utarray_free
  * @param[in] index The index of an output object
  * @return tx_output_t*
  */
-static inline tx_output_t *transaction_outputs_at(tx_outputs_t *tx_out, size_t index) {
+static tx_output_t *tx_outputs_at(tx_outputs_t *tx_out, size_t index) {
   // return NULL if not found.
   return (tx_output_t *)utarray_eltptr(tx_out, index);
 }
+
+/**
+ * @brief Prints an output list object.
+ *
+ * @param[in] tx_out An output list.
+ */
+void tx_outputs_print(tx_outputs_t *tx_out);
 
 /**
  * @brief loops a transaction output list
@@ -143,7 +197,7 @@ static inline tx_output_t *transaction_outputs_at(tx_outputs_t *tx_out, size_t i
 //   byte_t address[IOTA_ADDRESS_BYTES];
 //   byte_t keypair[32];
 //   byte_t signature[ED_SIGNATURE_BYTES];
-// } signature_t;
+// } tx_signature_t;
 //
 // typedef struct {
 //   byte_t id[32];
@@ -151,7 +205,7 @@ static inline tx_output_t *transaction_outputs_at(tx_outputs_t *tx_out, size_t i
 //   byte_t signature[1];  // len?
 //   tx_inputs_t* inputs;
 //   tx_outputs_t* outputs;
-//   signature_t* signatures;
+//   tx_signature_t* signatures;
 //   byte_t* datapayload;  // optional
 //
 // } transaction_ctx_t;
