@@ -25,7 +25,7 @@ endif()
 
 
 set(IOTA_COMMON_EXTERNAL_HEADERS 
-  "${PROJECT_BINARY_DIR}/include"
+  "${CMAKE_INSTALL_PREFIX}/include"
 )
 
 add_subdirectory(src)
