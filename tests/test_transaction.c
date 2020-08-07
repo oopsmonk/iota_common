@@ -9,10 +9,10 @@
 
 void test_transaction_id() {
   byte_t id[TRANSACTION_ID_BYTES];
-  char id_str[TRANSACTION_ID_STR_LEN];
-  size_t str_len = TRANSACTION_ID_STR_LEN;
+  char id_str[TRANSACTION_ID_BASE58_LEN];
+  size_t str_len = TRANSACTION_ID_BASE58_LEN;
   tx_id_random(id);
-  TEST_ASSERT(tx_id_2_string(id_str, &str_len, id));
+  TEST_ASSERT(tx_id_2_base58(id_str, &str_len, id));
   // printf("id: %s\n", id_str);
 
   byte_t exp_id[TRANSACTION_ID_BYTES];

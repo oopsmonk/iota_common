@@ -10,7 +10,7 @@
 // represents "vanilla" IOTA tokens but it is also possible to define tokens that represent i.e. real world assets.
 
 #define BALANCE_COLOR_BYTES 32
-#define BALANCE_COLOR_STR_LEN 48
+#define BALANCE_COLOR_BASE58_LEN 48
 
 // Balance represents a balance in the IOTA ledger. It consists out of a numeric value and a color.
 typedef struct {
@@ -63,7 +63,7 @@ void balance_set_color(balance_t* balance, byte_t color[]);
  * @return true
  * @return false
  */
-bool balance_color_2_string(char color_str[], byte_t color[]);
+bool balance_color_2_base58(char color_str[], byte_t color[]);
 
 /**
  * @brief print out a balance object

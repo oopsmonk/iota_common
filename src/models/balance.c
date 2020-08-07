@@ -15,8 +15,8 @@ static bool empty_color(byte_t color[]) {
   return true;
 }
 
-bool balance_color_2_string(char color_str[], byte_t color[]) {
-  size_t buf_len = BALANCE_COLOR_STR_LEN;
+bool balance_color_2_base58(char color_str[], byte_t color[]) {
+  size_t buf_len = BALANCE_COLOR_BASE58_LEN;
   bool ret = true;
   if (empty_color(color)) {
     snprintf(color_str, buf_len, "IOTA");
@@ -51,8 +51,8 @@ void balance_2_bytes(byte_t balance_bytes[], balance_t* balance) {
 
 void print_balance(balance_t* balance) {
   if (empty_color(balance->color)) {
-    char color_str[BALANCE_COLOR_STR_LEN];
-    balance_color_2_string(color_str, balance->color);
+    char color_str[BALANCE_COLOR_BASE58_LEN];
+    balance_color_2_base58(color_str, balance->color);
     printf("balance[%" PRId64 ", %s]\n", balance->value, color_str);
   } else {
     printf("balance[%" PRId64 ", IOTA]\n", balance->value);

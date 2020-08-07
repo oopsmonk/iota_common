@@ -13,10 +13,10 @@ extern "C" {
 #endif
 
 #define TRANSACTION_ID_BYTES 32
-#define TRANSACTION_ID_STR_LEN 48
+#define TRANSACTION_ID_BASE58_LEN 48
 // OutputID is the data type that represents the identifier for a Output.
 #define OUTPUT_ID_BYTES (IOTA_ADDRESS_BYTES + TRANSACTION_ID_BYTES)
-#define OUTPUT_ID_STR_LEN 96
+#define OUTPUT_ID_BASE58_LEN 96
 
 /**
  * @brief A transaction output object
@@ -48,7 +48,7 @@ void tx_id_random(byte_t id[]);
  * @return true
  * @return false
  */
-bool tx_id_2_string(char str_buf[], size_t *buf_len, byte_t id[]);
+bool tx_id_2_base58(char str_buf[], size_t *buf_len, byte_t id[]);
 
 /**
  * @brief Gets a random output id from a given address
@@ -76,7 +76,7 @@ void tx_output_id(byte_t output_id[], byte_t addr[], byte_t id[]);
  * @return true
  * @return false
  */
-bool tx_output_id_2_string(char str_buf[], size_t *buf_len, byte_t output_id[]);
+bool tx_output_id_2_base58(char str_buf[], size_t *buf_len, byte_t output_id[]);
 
 /**
  * @brief Allocates a transaction input list object.

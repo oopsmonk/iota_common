@@ -8,7 +8,7 @@
 
 // the length of an address (digest length = 32 + version byte length = 1).
 #define IOTA_ADDRESS_BYTES 33
-#define IOTA_ADDRESS_STR_LEN 48
+#define IOTA_ADDRESS_BASE58_LEN 48
 #define IOTA_SEED_BYTES crypto_sign_ed25519_SEEDBYTES
 
 #define ED_PUBLIC_KEY_BYTES crypto_sign_ed25519_PUBLICKEYBYTES
@@ -39,7 +39,7 @@ void random_seed(byte_t seed[]);
  * @return true
  * @return false
  */
-bool seed_2_string(char str_buf[], size_t *buf_len, byte_t seed[]);
+bool seed_2_base58(char str_buf[], size_t *buf_len, byte_t seed[]);
 
 /**
  * @brief Gets seed bytes from a human readable seed string.
@@ -49,7 +49,7 @@ bool seed_2_string(char str_buf[], size_t *buf_len, byte_t seed[]);
  * @return true
  * @return false
  */
-bool seed_from_string(byte_t out_seed[], const char *str);
+bool seed_from_base58(byte_t out_seed[], const char *str);
 
 /**
  * @brief Gets the address from corresponding seed and index
@@ -69,7 +69,17 @@ void get_address(byte_t addr_out[], byte_t seed[], uint64_t index, address_versi
  * @return true
  * @return false
  */
-bool address_2_string(char str_buf[], byte_t address[]);
+bool address_2_base58(char str_buf[], byte_t address[]);
+
+/**
+ * @brief Gets address bytes from a human readable address string.
+ *
+ * @param[out] address
+ * @param[in] base58_string
+ * @return true
+ * @return false
+ */
+bool address_from_base58(byte_t address[], char *base58_string);
 
 /**
  * @brief signs data/message and returns the signature.

@@ -42,11 +42,11 @@ void hex_decode_string(const char str[], uint8_t array[]) {
 
 void random_seed(byte_t seed[]) { randombytes_buf((void *const)seed, IOTA_SEED_BYTES); }
 
-bool seed_2_string(char str_buf[], size_t *buf_len, byte_t seed[]) {
+bool seed_2_base58(char str_buf[], size_t *buf_len, byte_t seed[]) {
   return b58enc((char *)str_buf, buf_len, (const void *)seed, IOTA_SEED_BYTES);
 }
 
-bool seed_from_string(byte_t out_seed[], const char *str) {
+bool seed_from_base58(byte_t out_seed[], const char *str) {
   size_t out_len = IOTA_SEED_BYTES;
   return b58tobin((void *)out_seed, &out_len, str, strlen(str));
 }
@@ -117,12 +117,17 @@ void get_address(byte_t addr_out[], byte_t seed[], uint64_t index, address_versi
   }
 }
 
-bool address_2_string(char str_buf[], byte_t address[]) {
-  size_t buf_len = IOTA_ADDRESS_STR_LEN;
+bool address_2_base58(char str_buf[], byte_t address[]) {
+  size_t buf_len = IOTA_ADDRESS_BASE58_LEN;
   return b58enc(str_buf, &buf_len, (const void *)address, IOTA_ADDRESS_BYTES);
   // bool ret = b58enc(str_buf, &buf_len, (const void *)address, IOTA_ADDRESS_BYTES);
   // printf("addr len %ld, %s, ret = %d\n", buf_len, str_buf, ret);
   // return ret;
+}
+
+bool address_from_base58(byte_t address[], char *base58_string) {
+  size_t addr_len = IOTA_ADDRESS_BYTES;
+  return b58tobin((void *)address, &addr_len, base58_string, strlen(base58_string));
 }
 
 // signs the message with privateKey and returns a signature.
@@ -159,9 +164,4 @@ bool sign_verify_signature(byte_t seed[], uint64_t index, byte_t signature[], by
     printf("failed\n");
     return false;
   }
-}
-
-bool address_from_base58(byte_t address[], char *base58_string) {
-  size_t addr_len = IOTA_ADDRESS_BYTES;
-  return b58tobin((void *)address, &addr_len, base58_string, strlen(base58_string));
 }
