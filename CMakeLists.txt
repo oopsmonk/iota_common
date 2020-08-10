@@ -6,8 +6,8 @@ enable_language(C)
 enable_testing()
 
 option(ENABLE_ASAN "Enable Address sanitizer" ON)
-option(ENABLE_TESTS "Enable unit tests" ON)
-option(ENABLE_BENCH "Enable benchmarks" OFF)
+option(COMMON_TESTS "Enable unit tests" ON)
+option(COMMON_BENCH "Enable benchmarks" OFF)
 
 include(ExternalProject)
 link_directories("${CMAKE_INSTALL_PREFIX}/lib")
@@ -19,7 +19,7 @@ include(cmake/uthash.cmake)
 include(cmake/base58.cmake)
 include(cmake/libsodium.cmake)
 
-if(ENABLE_ASAN AND ENABLE_TESTS)
+if(ENABLE_ASAN)
   include(cmake/asan.cmake)
 endif()
 
@@ -30,9 +30,9 @@ set(IOTA_COMMON_EXTERNAL_HEADERS
 
 add_subdirectory(src)
 
-if(ENABLE_TESTS)
+if(COMMON_TESTS)
   add_subdirectory(tests)
 endif()
-if(ENABLE_BENCH)
+if(COMMON_BENCH)
   add_subdirectory(benchmarks)
 endif()
