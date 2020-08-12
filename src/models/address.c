@@ -83,7 +83,7 @@ static void get_subseed(byte_t subseed[], byte_t seed[], uint64_t index) {
   // dump_hex(subseed, IOTA_SEED_BYTES);
 }
 
-bool address_from_ed25519(byte_t addr_out[], byte_t seed[], uint64_t index) {
+void address_from_ed25519(byte_t addr_out[], byte_t seed[], uint64_t index) {
   // public key of the seed
   byte_t pub_key[ED_PUBLIC_KEY_BYTES];
   byte_t priv_key[ED_PRIVATE_KEY_BYTES];
