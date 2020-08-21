@@ -11,4 +11,5 @@ endfunction(add_common_test)
 
 add_common_test("test_address.c" test_address)
 add_common_test("test_balance.c" test_balance)
-add_common_test("test_transaction.c" test_transaction)
+# add_common_test("test_transaction.c" test_transaction)
+add_common_test("test_inputs.c" test_inputs)

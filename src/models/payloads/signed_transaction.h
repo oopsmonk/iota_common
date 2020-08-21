@@ -7,13 +7,13 @@
 #include "models/types.h"
 
 typedef struct {
-  transaction_t type;    // Set to value 0 to denote an Unsigned Transaction.
-  size_t inputs_count;   // The amount of inputs proceeding.
-  void *inputs;          // a list of inputs, any of utxo_input
-  size_t outputs_count;  // The amount of outputs proceeding.
-  void *outputs;         // a list of outputs, any of sig_unlocked_single_deposit_t
-  size_t payload_len;    // The length in bytes of the optional payload.
-  void *payload;         // optional one of unsigned data, signed data, indexation playloads.
+  transaction_t type;   // Set to value 0 to denote an Unsigned Transaction.
+  size_t input_count;   // The amount of inputs proceeding.
+  void *inputs;         // a list of inputs, any of utxo_input
+  size_t output_count;  // The amount of outputs proceeding.
+  void *outputs;        // a list of outputs, any of sig_unlocked_single_deposit_t
+  size_t payload_len;   // The length in bytes of the optional payload.
+  void *payload;        // optional one of unsigned data, signed data, indexation playloads.
 } unsigned_tx_t;
 
 typedef struct {

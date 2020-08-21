@@ -2,7 +2,8 @@
 add_library(iota_common
 	"models/address.c"
 	"models/balance.c"
-	"models/transaction.c"
+	# "models/transaction.c"
+	"models/inputs/utxo_input.c"
 )
 
 target_include_directories(iota_common PUBLIC 

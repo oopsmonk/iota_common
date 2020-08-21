@@ -10,7 +10,7 @@ typedef struct {
   byte_t *data;          // The data we are attaching
   byte_t pub_key[32];    // The Ed25519 public key used to verify the signature.
   byte_t signature[64];  // The signature signing the data.
-} unsigned_data_t;
+} signed_data_t;
 
 #ifdef __cplusplus
 extern "C" {
