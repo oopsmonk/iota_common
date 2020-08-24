@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#include "models/address.h"
 #include "models/types.h"
 
 typedef struct {
@@ -17,9 +18,9 @@ typedef struct {
 } unsigned_tx_t;
 
 typedef struct {
-  signature_t type;      // Set to value 0 to denote an Ed25519 Signature
-  byte_t pub_key[32];    // The public key of the Ed25519 keypair which is used to verify the signature.
-  byte_t signature[64];  // The signature signing the serialized Unsigned Transaction.
+  signature_t type;                      // Set to value 0 to denote an Ed25519 Signature
+  byte_t pub_key[ED_PUBLIC_KEY_BYTES];   // The public key of the Ed25519 keypair which is used to verify the signature.
+  byte_t signature[ED_SIGNATURE_BYTES];  // The signature signing the serialized Unsigned Transaction.
 } ed25519_signature_t;
 
 typedef struct {

@@ -4,6 +4,7 @@ add_library(iota_common
 	"models/balance.c"
 	# "models/transaction.c"
 	"models/inputs/utxo_input.c"
+	"models/outputs/sig_unlocked_single_deposit.c"
 )
 
 target_include_directories(iota_common PUBLIC 
