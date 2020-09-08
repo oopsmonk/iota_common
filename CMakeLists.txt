@@ -23,10 +23,7 @@ if(ENABLE_ASAN)
   include(cmake/asan.cmake)
 endif()
 
-
-set(IOTA_COMMON_EXTERNAL_HEADERS 
-  "${CMAKE_INSTALL_PREFIX}/include"
-)
+set(IOTA_COMMON_EXTERNAL_HEADERS "${CMAKE_INSTALL_PREFIX}/include")
 
 add_subdirectory(src)
 
